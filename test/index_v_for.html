@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>vue学习实例</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--<link href="css/style.css" rel="stylesheet">-->
+    <script src="vue.js"></script>
+</head>
+
+<body>
+<div id="app">
+    <ul>
+        <li v-for="book in books">{{ book.name }}</li>
+    </ul>
+</div>
+
+
+<style type="text/css">
+
+
+</style>
+<script>
+    var app = new Vue({
+        el: '#app',
+        data: {
+            books: [
+                {name: '《Vue.js实战》'},
+                {name: '《JavaScript语言精粹》'},
+                {name: '《JavaScript高级程序设计》'},
+                {name: '《laravel框架关键技术》'}
+            ]
+        }
+    })
+</script>
+</body>
+
+</html>
