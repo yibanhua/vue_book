@@ -2,26 +2,89 @@
 <html lang="en">
 
 <head>
-    <title>vue学习实例</title>
+    <title>vue 购物车</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!--<link href="css/style.css" rel="stylesheet">-->
+    <link href="style.css" rel="stylesheet" type="text/css">
 
 </head>
 
 <body>
-<div id="app">
+<div id="app" v-cloak>
 
+    <template v-if="list.length">
+        <table>
+            <thead>
+            <tr>
+                <th></th>
+                <th>选项</th>
+                <th>商品类型</th>
+                <th>商品名称</th>
+                <th>商品单价</th>
+                <th>购买数量</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody v-for="(items, index) in list" v-if="items.data.length">
+            <tr v-for="(item,index) in items.data" v-if="item">
+                <td>{{index + 1}}</td>
+                <td>
+                    <input type="checkbox" v-model="item.checked">
+                </td>
+                <td>{{items.category}}</td>
+                <td>{{item.name}}</td>
+                <td>￥{{item.price}}</td>
+                <td>
+                    <button @click="handleReduce(item)" :disabled="item.count===0">-</button>
+                    <span>{{item.count}}</span>
+                    <button @click="handleAdd(index)">+</button>
+                </td>
+                <td>
+                    <button @click="handleRemove(index)">移除</button>
+                </td>
+            </tr>
+            <td>小计</td>
+            <td>
+                <input type="checkbox" v-model="select" @click="checkAll()">
+            </td>
+            <td>{{items.category}}</td>
+            <td>
+
+            </td>
+            <td>价格：￥{{totalPrice}}</td>
+
+            <td>
+
+            </td>
+            <td>
+
+            </td>
+            </tbody>
+            <td>总计</td>
+            <td>
+                <input type="checkbox" v-model="select" @click="checkAll()">
+            </td>
+            <td></td>
+            <td>
+
+            </td>
+            <td>总价格：￥{{totalPrice}}</td>
+
+            <td>
+
+            </td>
+            <td>
+
+            </td>
+
+
+        </table>
+    </template>
+    <div v-else>购物车是空的</div>
 </div>
-
 <script src="vue.js"></script>
-<style type="text/css">
+<script src="index.js"></script>
 
-
-</style>
-<script>
-
-</script>
 </body>
 
 </html>

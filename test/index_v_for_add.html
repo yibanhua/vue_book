@@ -11,8 +11,19 @@
 
 <body>
 <div id="app">
+
+    <label>作者名:</label>
+    <input id="author" type="text" placeholder="输入作者名">
+    <label>图书名:</label>
+    <input id="myname" type="text" placeholder="输入图书名">
+    <button @click="add_book()">添加图书</button>
+
     <ul>
-        <li v-for="book in books">{{ book.name }}</li>
+        <li v-for="book in books">
+            <span v-for="(index,key,value) in book">
+                {{value}}--{{key}}:{{index}}<br>
+            </span>
+        </li>
     </ul>
 </div>
 
@@ -26,16 +37,42 @@
         el: '#app',
         data: {
             books: [
-                {name: '《Vue.js实战》'},
-                {name: '《JavaScript语言精粹》'},
-                {name: '《JavaScript高级程序设计》'},
-                {name: '《laravel框架关键技术》'}
+                {
+                    name: '《Vue.js实战》',
+                    author: '梁燝'
+
+                },
+                {
+                    name: '《JavaScript语言精粹》',
+                    author: 'Douglas Crockford'
+
+                },
+                {
+                    name: '《JavaScript高级程序设计》',
+                    author: 'Nicholas C.Zakas'
+
+                },
+                {
+                    name: '《laravel框架关键技术》',
+                    author: '陈昊'
+                }
             ]
+        },
+        methods: {
+            add_book: function () {
+                let new_book = {};
+
+                new_book.author = author.value;
+                new_book.name = myname.value;
+                this.books.push(new_book)
+            }
         }
-    })
+    });
     app.books.push({
-        name:'《CSS揭秘》'
-    })
+        name: '《CSS揭秘》',
+        author: '[希] Lea Verou'
+    });
+
 </script>
 </body>
 

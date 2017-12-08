@@ -10,17 +10,139 @@
 </head>
 
 <body>
-<div id="app">
+<div id="app1">
+    <input type="radio" v-model="picked" :value="value">
+    <label>单选按钮</label>
+    <p> {{picked}}</p>
+    <p>{{value}}</p>
+</div>
+
+<div id="app2">
+    <input type="checkbox" v-model="toggle" :true-value="value1" :false-value="value2">
+    <label>复选框</label>
+    <p>{{toggle}}</p>
+    <p>{{value1}}</p>
+    <p>{{value2}}</p>
+</div>
+
+<div id="app3">
+    <select v-model="selected">
+        <option :value="{number: 123}">123</option>
+    </select>
+    {{selected.number}}
+</div>
+
+<div id="app4">
+    <input type="text" v-model="message" placeholder="输入内容">
+    <p>输入的内容是：{{message}}</p>
 
 </div>
-5
+
+<div id="app5">
+    <input type="radio" v-model="picked" value="html" id="html">
+    <label for="html">HTML</label><br>
+    <input type="radio" v-model="picked" value="css" id="css">
+    <label for="css">CSS</label> <br>
+    <input type="radio" v-model="picked" value="js" id="js">
+    <label for="js">JS</label> <br>
+    <input type="radio" v-model="picked" value="vue" id="vue">
+    <label for="vue">VUE</label><br>
+    <p>选择的项是：{{picked}}</p>
+
+</div>
+
+<div id="app6">
+    <input type="checkbox" v-model="checked" value="html" id="html1">
+    <label for="html1">HTML</label><br>
+    <input type="checkbox" v-model="checked" value="css" id="css1">
+    <label for="css1">CSS</label><br>
+    <input type="checkbox" v-model="checked" value="js" id="js1">
+    <label for="js1">JS</label><br>
+    <input type="checkbox" v-model="checked" value="vue" id="vue1">
+    <label for="vue1">VUE</label><br>
+    <p>选择的选项：d {{checked}}</p>
+</div>
+<div id="app7">
+    <select v-model="selected" multiple>
+        <option v-for="option in options"
+                :value="option.value">{{option.text}}
+        </option>
+    </select>
+    <p>选择的是：{{selected}}</p>
+
+</div>
+
 <script src="vue.js"></script>
 <style type="text/css">
 
 
 </style>
 <script>
+    var app1 = new Vue({
+        el: '#app1',
+        data: {
+            picked: false,
+            value: 1123
+        }
+    });
+    var app2 = new Vue({
+        el: '#app2',
+        data: {
+            toggle: false,
+            value1: 'a',
+            value2: 'b'
+        }
+    })
+    var app3 = new Vue({
+        el: '#app3',
+        data: {
+            selected: ''
+        }
+    })
+    var app4 = new Vue({
+        el: '#app4',
+        data: {
+            message: ''
+        }
+    })
+    var app5 = new Vue({
+        el: '#app5',
+        data: {
+            picked: 'js'
+        }
+    })
+    var app6 = new Vue({
+        el: '#app6',
+        data: {
+            checked: ['js', 'html']
+        }
+    })
+    var app7 = new Vue({
+        el: '#app7',
+        data: {
+            selected: 'html',
+            options: [
+                {
+                    text: 'HTML',
+                    value: 'html'
+                },
+                {
+                    text: 'JavaScript',
+                    value: 'js'
+                },
+                {
+                    text: 'CSS',
+                    value: 'css'
+                },
+                {
+                    text: 'VUE',
+                    value: 'vue'
+                }
 
+
+            ]
+        }
+    })
 </script>
 </body>
 

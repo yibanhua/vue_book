@@ -1,10 +1,204 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>$Title$</title>
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="icon" href="https://cn.vuejs.org/images/logo.png" type="image/x-icon">
+    <style>
+        .completed {
+            text-decoration: line-through;
+        }
+
+        .btn:focus,
+        .btn:active:focus,
+        .btn.active:focus,
+        .btn.focus,
+        .btn:active.focus,
+        .btn.active.focus {
+            outline: none;
+        }
+    </style>
 </head>
 <body>
-$END$
+<div id="app">
+    <cart-show :lists="carts"></cart-show>
+</div>
+<template id="TASK-TEMPLATE">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12" role="main" v-if="lists.length">
+                <h1 class="text-center">购物车示例</h1>
+                <table class="table" v-for="(cart, key) in lists" v-if="cart.data.length">
+                    <tr>
+                        <td class="text-left" colspan="6">
+                            <input type="checkbox" @click="changeStatus(key, null)"
+                                   :checked="isCheckChildAll(cart.data)"/>
+                            {{ cart.company }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="text-center"></th>
+                        <th class="text-center">序号</th>
+                        <th class="text-center">商品名称</th>
+                        <th class="text-center">商品单价</th>
+                        <th class="text-center">商品数量</th>
+                        <th class="text-center">操作</th>
+                    </tr>
+                    <tr v-for="(list, index) in cart.data">
+                        <td class="text-center col-md-1 ">
+                            <input type="checkbox" @click="changeStatus(key, index)" :checked="hasCheck(key, index)"/>
+                        </td>
+                        <td class="text-center col-md-1 ">
+                            {{ index+1 }}
+                        </td>
+                        <td class="text-center col-md-2 ">{{ list.name }}</td>
+                        <td class="text-center col-md-2 ">{{ list.price }}</td>
+                        <td class="col-md-3 text-center">
+                            <div style="margin: 0 auto; width:150px;">
+                                <div style="width:40px;float:left;">
+                                    <button class="btn btn-info" style="border-radius: 50%;border-color:#ffffff;"
+                                            @click="cartReduce(list)"
+                                            :disable="list.count === 1">-
+                                    </button>
+                                </div>
+                                <div class="col-md-1" style="width:50px;float:left;margin-top: 5px;">{{ list.count }}
+                                </div>
+                                <div class="col-md-2" style="width:50px;float:left;">
+                                    <button class="btn btn-info"
+                                            style="display: block;border-radius: 50%;border-color:#ffffff;"
+                                            @click="cartAdd(list)">+
+                                    </button>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="text-center">
+                            <button class="btn btn-danger" @click="removeThisLine(key, index)">移除</button>
+                        </td>
+                    </tr>
+                    <tr></tr>
+                </table>
+                <br>
+                <div>
+                    <input type="checkbox" class="pull-left" @click="checkAll" :checked="isCheckAll(lists)"> 全选
+                    <button class="btn btn-danger pull-right" @click="ShowInfo()" v-if="prices">去支付{{ prices }}</button>
+                </div>
+            </div>
+            <div v-else>
+                <h1 class="text-center">购物车为空</h1>
+            </div>
+        </div>
+    </div>
+</template>
 </body>
+<script src="https://cdn.bootcss.com/vue/2.4.4/vue.js"></script>
+<script>
+    Vue.component('cart-show', {
+        template: '#TASK-TEMPLATE',
+        props: ['lists'],
+        computed: {
+            prices: function () {
+                var prices = 0;
+                for (var i = 0; i < this.lists.length; i++) {
+                    var cart = this.lists[i];
+                    for (var j = 0; j < cart['data'].length; j++) {
+                        var data = cart['data'][j];
+                        if (data.status) {
+                            prices += data.price * data.count;
+                        }
+                    }
+                }
+                return prices > 0 ? prices.toString().replace(/\B(?=(\d{3})+$)/g, ',') : 0;
+            }
+        },
+        methods: {
+            cartReduce: function (list) {
+                if (list.count === 1) return;
+                list.count--;
+            },
+            cartAdd: function (list) {
+                list.count++;
+            },
+            removeThisLine: function (key, index) {
+                this.lists[key]['data'].splice(index, 1);
+                if (this.lists[key]['data'].length === 0) {
+                    this.lists.splice(key, 1);
+                }
+            },
+            changeStatus: function (key, index) {
+                if (index * 1 || index === 0) {
+                    this.lists[key]['data'][index].status = !this.lists[key]['data'][index].status;
+                } else {
+                    var data = this.lists[key]['data'];
+                    var status = this.isCheckChildAll(data);
+                    status = status ? 0 : 1;
+                    for (var j = 0; j < data.length; j++) {
+                        data[j].status = status;
+                    }
+                }
+            },
+            hasCheck: function (key, index) {
+                return this.lists[key]['data'][index].status;
+            },
+            isCheckChildAll: function (data) {
+                for (var j = 0; j < data.length; j++) {
+                    if (!data[j].status) {
+                        return false;
+                    }
+                }
+                return true;
+            },
+            isCheckAll: function (data) {
+                var status = true;
+                for (var i = 0; i < this.lists.length; i++) {
+                    var cart = this.lists[i];
+                    for (var j = 0; j < cart['data'].length; j++) {
+                        var data = cart['data'][j];
+                        if (!data.status) {
+                            return false;
+                        }
+                    }
+                }
+                return status;
+            },
+            checkAll: function () {
+                var status = this.isCheckAll(this.lists);
+                status ? status = 0 : status = 1;
+                for (var i = 0; i < this.lists.length; i++) {
+                    var cart = this.lists[i];
+                    for (var j = 0; j < cart['data'].length; j++) {
+                        var data = cart['data'][j];
+                        data.status = status;
+                    }
+                }
+            },
+            ShowInfo: function () {
+                alert(this.prices)
+            }
+        }
+    });
+
+    var app = new Vue({
+        el: '#app',
+        data: {
+            carts: [
+                {
+                    company: "蔬菜公司",
+                    data: [
+                        {name: '榴莲', price: 244, count: 3, status: 1},
+                        {name: '橘子', price: 20, count: 5, status: 1}
+                    ]
+                },
+                {
+                    company: "apple公司",
+                    data: [
+                        {name: 'Iphone7', price: 6188, count: 1, status: 1},
+                        {name: 'Ipad Pro', price: 5888, count: 1, status: 1},
+                        {name: 'Macbook Pro', price: 21488, count: 1, status: 1}
+                    ]
+                }
+            ]
+        }
+    })
+</script>
 </html>
