@@ -13,18 +13,19 @@
       "webRoot": "${workspaceRoot}"
     },
     {
+      "name": "Attach to Chrome",
       "type": "chrome",
       "request": "attach",
-      "name": "Attach to Chrome",
       "port": 9222,
+      "sourceMaps": true,
       "webRoot": "${workspaceRoot}"
     },
     {
-      "name": "Launch index.html (disable sourcemaps)",
+      "name": "Launch index_input_number.html",
       "type": "chrome",
       "request": "launch",
       "sourceMaps": false,
-      "file": "${workspaceRoot}/demo/index.html"
+      "file": "${workspaceRoot}/input-number/index_demo.html"
     }
   ]
 }

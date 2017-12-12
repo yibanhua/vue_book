@@ -1,3 +1,6 @@
 var app = Vue({
-    el:'#app'
+    el: '#app',
+    data: {
+        value: 5
+    }
 });
