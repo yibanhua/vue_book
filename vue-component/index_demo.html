@@ -11,8 +11,8 @@
 
 <body>
 <div id="app">
-    <input type="text" v-model="parentMessage">
     <my-component></my-component>
+    <input type="text" v-model="parentMessage">
 
     <my-component :message="parentMessage"></my-component>
 </div>
@@ -36,7 +36,7 @@
     });
     var Child = {
         template: '<div>局部注册</div>'
-    }
+    };
 
     var app = new Vue({
         el: '#app',
@@ -45,7 +45,7 @@
         },
         data: {
             parentMessage: '123',
-        }
+        },
     })
 </script>
 </body>
