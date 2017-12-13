@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>vue组件学习实例</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="style.css" rel="stylesheet">
+
+</head>
+
+<body>
+<div id="app">
+    <my-component></my-component>
+    <input type="text" v-model="parentMessage">
+
+    <my-component :message="parentMessage"></my-component>
+</div>
+
+<script src="vue.js"></script>
+<style type="text/css">
+
+
+</style>
+<script>
+
+    Vue.component('my-component', {
+        props: {
+            message: {
+                type: Boolean,
+            }
+        },
+        template: '<div>{{message}}</div>',
+
+
+    });
+    var Child = {
+        template: '<div>局部注册</div>'
+    };
+
+    var app = new Vue({
+        el: '#app',
+        components: {
+            'my-components': Child
+        },
+        data: {
+            parentMessage: '123',
+        },
+    })
+</script>
+</body>
+
+</html>
