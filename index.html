@@ -1,0 +1,59 @@
+<html>
+
+<head>
+
+    <script language="javascript" type="text/javascript">
+
+        function test(obj){
+
+            with(obj){
+
+                var idReg = /^\d{15}$|^\d{18}$|^\d{17}[xX]$/;
+
+                var postReg = /^\d{6}$/;
+
+                if(!idcard.value.match(idReg)){
+
+                    alert("身份证号不合法");
+
+                    return false;
+
+                }
+
+                if(!postal.value.match(postReg)){
+
+                    alert("邮编不合法");
+
+                    return false;
+
+                }
+
+                return true;
+
+            }
+
+        }
+
+    </script>
+
+</head>
+
+<body>
+
+    用户详细信息:<br/>
+
+    
+
+    <form  onsubmit="return test(this)">
+
+        邮政编码:<input type="text" name="postal"/><br/>
+
+        身份证号:<input type="text" name="idcard"/><br/>
+
+        <input type="submit" value="ok"/>
+
+    </form>
+
+<body>
+
+</html>
