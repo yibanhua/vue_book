@@ -2,14 +2,14 @@ Vue.component('tabs',{
     template:'' +
         '<div class="tabs">' +
         '   <div class="tabs-bar">' +
-        '       <div class="tabCls(item)" ' +
+    '       <div :class="tabCls(item)" ' +
         '            v-for="(item,index) in navList" ' +
         '            @click="handleChange(index)">' +
         '           {{item.label}}' +
         '       </div>' +
         '   </div> ' +
         '   <div class="tabs-content">' +
-        '       <solt></solt>' +
+    '       <slot></slot>' +
         '   </div> ' +
         '</div>',
     props:{
