@@ -7,13 +7,17 @@ Vue.component('pane',{
         label:{
             type:String,
             default:''
+        },
+        closeable: {
+            type: Boolean,
+            default: true
         }
 
     },
-    template:'' +
+    template: '<transition name="slide-fade">' +
         '<div class="pane" v-show="show">' +
         '<slot></slot>' +
-        '</div>',
+    '</div></transition>',
     data:function () {
         return{
             show:true

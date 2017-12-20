@@ -6,7 +6,8 @@ Vue.component('tabs',{
         '            v-for="(item,index) in navList" ' +
         '            @click="handleChange(index)">' +
         '           {{item.label}}' +
-        '       </div>' +
+    ' <input v-if="item.closeable" type="button" name="close" value="关闭" @click="tableclose(index)" />     ' +
+    ' </div>' +
         '   </div> ' +
         '   <div class="tabs-content">' +
     '       <slot></slot>' +
@@ -35,7 +36,8 @@ Vue.component('tabs',{
             this.getTags().forEach(function (pane,index) {
                 _this.navList.push({
                     label:pane.label,
-                    name:pane.name||index
+                    name: pane.name || index,
+                    closeable: pane.closeable
                 });
                 if  (!pane.name) pane.name = index;
                 if (index === 0){
@@ -67,6 +69,10 @@ Vue.component('tabs',{
             this.currentValue = name;
             this.$emit('input',name);
             this.$emit('on-click',name)
+        },
+        tableclose: function (index) {
+            this.navList.splice(index, 1);
+
         }
     },
     watch:{
